@@ -2,7 +2,7 @@
 
 **Ask questions about NBA stats in plain English. Get real answers, computed from real data.**
 
-Hoops Query is a natural-language analytics agent for NBA statistics. Type a question like *"Which players had the biggest scoring jump over the season?"* and it translates your question into SQL, runs it against a PostgreSQL database of historical NBA data, validates the result, and returns the answer with a chart — no SQL knowledge required.
+Hoops Query is a natural-language analytics agent for NBA statistics. Ask a question like *"Which players had the biggest scoring jump over the season?"* and an AI agent figures out which parts of the database matter, writes the SQL to answer it, runs that query against a PostgreSQL database of historical NBA data, and checks the result — retrying automatically when a query fails or returns something that doesn't add up. For questions that take more than one step, it chains queries and computes the stats it needs along the way, then returns the answer with a chart and a record of how it got there.
 
 The model never makes up answers. Every response is computed from real data using SQL the agent writes and runs itself.
 
@@ -100,7 +100,6 @@ Then open `http://localhost:5173` and start asking questions.
 - *"Show me the most efficient scorers by true shooting percentage."*
 
 ---
-
 ## License
 
 Released under the MIT License. See [LICENSE](LICENSE) for details.
