@@ -1,3 +1,5 @@
+# FOR THE PURPOSE OF CHECKING HOW THEIR DATA IS FORMATTED
+
 from nba_api.stats.endpoints import playergamelogs 
 
 # Pulls in the player logs from the 23-24 season

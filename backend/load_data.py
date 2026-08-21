@@ -1,3 +1,5 @@
+# FOR THE PURPOSE OF LOADING ALL OF THE NECESSARY DATA INTO POSTGRE
+
 from nba_api.stats.endpoints import playergamelogs 
 from sqlalchemy import create_engine
 import pandas as pd
@@ -8,8 +10,9 @@ from urllib.parse import quote_plus
 # Loads the environment file into this file
 load_dotenv()
 
-# Creates a password variable that is translates special characters as a viable pathway
+# Creates a password variable that retrieves database password from .env and translates special characters as a viable pathway
 password = quote_plus(os.getenv('DB_PASSWORD'))
+
 # Creates the two-way connector bewteen postgres and python
 engine = create_engine(f"postgresql+psycopg2://postgres:{password}@localhost:5432/hoops_query")
 logs = playergamelogs.PlayerGameLogs(season_nullable='2023-24')
