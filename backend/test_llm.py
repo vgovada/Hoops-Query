@@ -89,16 +89,29 @@ def generateSQL(exceptionPrompt) :
 # SQL Query generated
 sql_query = generateSQL(exceptionPrompt)
 
-# TEST ONLY: force the first attempt to fail. Delete after verifying.
-sql_query = "SELECT AVG(pont) FROM player_games WHERE player_name = 'LeBron James' AND season = '2023-24'"
-
 # Self-Correction Loop to retry until response is valid or times-out
 while (exceptionBool and cap > 0) :
     try :
         # Sending the AI SQL query to the database and returns the result
-            result = pd.read_sql(sql_query, engine)
+        result = pd.read_sql(sql_query, engine)
 
-        # Breaks loop if no exception thrown
+        # Checks to see if the result is NULL or invalid from Postgres
+        if result.empty or result.isna().values.any() :
+            print("Bad Result!")
+            cap -= 1
+            exceptionBool = True
+            exceptionPrompt = f"""
+                Postgres returned a NULL or invalid row/column. This means that
+                the query is valid, however, is the wrong schema filter compared to the
+                actual schema (Ex. Lebron James vs LeBron James). Recheck the schema and try again.
+
+                Below you will find the original prompt and your response.
+                Prompt: {question}
+                Response: {sql_query}
+                """
+            sql_query = generateSQL(exceptionPrompt)
+        else :
+            # Breaks loop if no exception thrown
             exceptionBool = False
     except Exception as e:
         cap -= 1
